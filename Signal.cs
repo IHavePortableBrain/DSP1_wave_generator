@@ -9,6 +9,8 @@ namespace lab1
 {
     public class Signal
     {
+        private readonly Random random;
+
         public SignalType SignalType { get; set; }
         public double Amplitude { get; set; }
         public double Frequency { get; set; }
@@ -16,6 +18,11 @@ namespace lab1
         public int Length { get; set; } // sec
         public double DutyCycle { get; set; } // SignalType.Impulse related. 0..1
         public WaveFormat WaveFormat { get; set; }
+
+        public Signal(Random random)
+        {
+            this.random = random;
+        }
 
         public float[] Emit()
         {
@@ -26,15 +33,14 @@ namespace lab1
                 case SignalType.Impulse:
                     return EmitImpulse();
                 case SignalType.Triangle:
-                    break;
+                    return EmitTriangle();
                 case SignalType.Sawtooth:
-                    break;
+                    return EmitSawtooth();
                 case SignalType.Noise:
-                    break;
+                    return EmitNoise();
                 default:
-                    return EmitSine();
+                    return EmitNoise();
             }
-            return EmitSine(); // todo remove
         }
 
         public float[] EmitSine()
@@ -42,7 +48,7 @@ namespace lab1
             var result = new float[Length * WaveFormat.SampleRate];
             for (int n = 0; n < result.Length; n++)
             {
-                float sample = (float)(Amplitude * Math.Sin((2 * Math.PI * n * Frequency) / WaveFormat.SampleRate));
+                float sample = (float)(Amplitude * Math.Sin(2 * Math.PI * n * Frequency / WaveFormat.SampleRate));
                 result[n] = sample;
             }
             return result;
@@ -54,6 +60,39 @@ namespace lab1
             for (int n = 0; n < result.Length; n++)
             {
                 float sample = (float)(Amplitude *  (((n / (double)WaveFormat.SampleRate) % Period) / Period > DutyCycle ? 0 : 1));
+                result[n] = sample;
+            }
+            return result;
+        }
+
+        public float[] EmitTriangle()
+        {
+            var result = new float[Length * WaveFormat.SampleRate];
+            for (int n = 0; n < result.Length; n++)
+            {
+                float sample = (float)(2 * Amplitude/ Math.PI * Math.Asin(Math.Sin(2 * Math.PI * Frequency * n / WaveFormat.SampleRate)));
+                result[n] = sample;
+            }
+            return result;
+        }
+
+        public float[] EmitSawtooth()
+        {
+            var result = new float[Length * WaveFormat.SampleRate];
+            for (int n = 0; n < result.Length; n++)
+            {
+                float sample = (float)(-2 * Amplitude / Math.PI * Math.Atan(1 / Math.Tan(Math.PI * Frequency * n / WaveFormat.SampleRate)));
+                result[n] = sample;
+            }
+            return result;
+        }
+
+        public float[] EmitNoise()
+        {
+            var result = new float[Length * WaveFormat.SampleRate];
+            for (int n = 0; n < result.Length; n++)
+            {
+                float sample = (float)(random.NextDouble() * Amplitude);
                 result[n] = sample;
             }
             return result;

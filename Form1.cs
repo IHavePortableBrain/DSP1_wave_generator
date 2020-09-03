@@ -23,7 +23,7 @@ namespace lab1
         {
             Directory.CreateDirectory(OutputDir);
             InitializeComponent();
-            Signal = new Signal()
+            Signal = new Signal(new Random())
             {
                 SignalType = ((IEnumerable<SignalType>)cbSignalType.DataSource).First(),
                 Length = Constants.Signal.Length,
