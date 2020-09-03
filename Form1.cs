@@ -14,34 +14,42 @@ namespace lab1
 {
     public partial class Form1 : Form
     {
-        WaveFormat waveFormat = new WaveFormat(8000, 24, 1);
-        public Signal _signal;
-        string _outputDir = Path.Combine(Environment.CurrentDirectory, Constants.OutputDirName);
-        private string OutputFileName => Guid.NewGuid().ToString() + ".wav";
+        public Signal Signal;
+        public readonly WaveFormat waveFormat = new WaveFormat(8000, 24, 1);
+        public readonly string OutputDir = Path.Combine(Environment.CurrentDirectory, Constants.OutputDirName);
+        private string OutputFileName => "file.wav";// Guid.NewGuid().ToString() + ".wav";
 
         public Form1()
         {
-            Directory.CreateDirectory(_outputDir);
+            Directory.CreateDirectory(OutputDir);
             InitializeComponent();
-
-            _signal = new Signal()
+            Signal = new Signal()
             {
                 Length = 10,
                 Amplitude = (float)edtAmplitude.Value,
                 Frequency = (float)edtFrequency.Value,
                 WaveFormat = waveFormat,
             };
+            BindControls();
         }
 
         private void btnRecord_Click(object sender, EventArgs e)
         {
-            string tempFile = Path.Combine(_outputDir, OutputFileName);
+            string tempFile = Path.Combine(OutputDir, OutputFileName);
             using (var fs = new FileStream(tempFile, FileMode.OpenOrCreate, FileAccess.Write))
             using (WaveFileWriter writer = new WaveFileWriter(fs, waveFormat))
             {
-                var sine = _signal.EmitSine();
+                var sine = Signal.EmitSine();
                 writer.WriteSamples(sine, 0, sine.Length);
             }
+        }
+
+        protected void BindControls()
+        {
+            edtAmplitude.DataBindings.Add(new Binding
+                (nameof(edtAmplitude.Value), Signal, nameof(Signal.Amplitude)));
+            edtFrequency.DataBindings.Add(new Binding
+                (nameof(edtFrequency.Value), Signal, nameof(Signal.Frequency)));
         }
     }
 }

@@ -72,7 +72,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Constants.datasource" />
     <None Include="Properties\DataSources\Form1.datasource" />
+    <None Include="Properties\DataSources\lab1.Properties.Resources.datasource" />
+    <None Include="Properties\DataSources\lab1.Properties.Settings.datasource" />
+    <None Include="Properties\DataSources\Program.datasource" />
+    <None Include="Properties\DataSources\Signal.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
