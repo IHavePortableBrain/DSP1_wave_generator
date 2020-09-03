@@ -1,6 +1,7 @@
 ﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,76 +27,57 @@ namespace lab1
 
         public float[] Emit()
         {
+            var result = new float[Length * WaveFormat.SampleRate];
+            for (int n = 0; n < result.Length; n++)
+            {
+                float sample = EmitSample(n);
+                result[n] = sample;
+            }
+            return result;
+        }
+
+        public float EmitSample(int n)
+        {
             switch (SignalType)
             {
                 case SignalType.Sine:
-                    return EmitSine();
+                    return EmitSineSample(n);
                 case SignalType.Impulse:
-                    return EmitImpulse();
+                    return EmitImpulseSample(n);
                 case SignalType.Triangle:
-                    return EmitTriangle();
+                    return EmitTriangleSample(n);
                 case SignalType.Sawtooth:
-                    return EmitSawtooth();
+                    return EmitSawtoothSample(n);
                 case SignalType.Noise:
-                    return EmitNoise();
+                    return EmitNoiseSample(n);
                 default:
-                    return EmitNoise();
+                    return EmitNoiseSample(n);
             }
         }
 
-        public float[] EmitSine()
+        private float EmitSineSample(int n)
         {
-            var result = new float[Length * WaveFormat.SampleRate];
-            for (int n = 0; n < result.Length; n++)
-            {
-                float sample = (float)(Amplitude * Math.Sin(2 * Math.PI * n * Frequency / WaveFormat.SampleRate));
-                result[n] = sample;
-            }
-            return result;
+            return (float)(Amplitude * Math.Sin(2 * Math.PI * n * Frequency / WaveFormat.SampleRate));
         }
 
-        public float[] EmitImpulse()
+        private float EmitImpulseSample(int n)
         {
-            var result = new float[Length * WaveFormat.SampleRate];
-            for (int n = 0; n < result.Length; n++)
-            {
-                float sample = (float)(Amplitude *  (((n / (double)WaveFormat.SampleRate) % Period) / Period > DutyCycle ? 0 : 1));
-                result[n] = sample;
-            }
-            return result;
+            return (float)(Amplitude * (((n / (double)WaveFormat.SampleRate) % Period) / Period > DutyCycle ? 0 : 1));
         }
 
-        public float[] EmitTriangle()
+        private float EmitTriangleSample(int n)
         {
-            var result = new float[Length * WaveFormat.SampleRate];
-            for (int n = 0; n < result.Length; n++)
-            {
-                float sample = (float)(2 * Amplitude/ Math.PI * Math.Asin(Math.Sin(2 * Math.PI * Frequency * n / WaveFormat.SampleRate)));
-                result[n] = sample;
-            }
-            return result;
+            return (float)(2 * Amplitude / Math.PI * Math.Asin(Math.Sin(2 * Math.PI * Frequency * n / WaveFormat.SampleRate)));
         }
 
-        public float[] EmitSawtooth()
+        private float EmitSawtoothSample(int n)
         {
-            var result = new float[Length * WaveFormat.SampleRate];
-            for (int n = 0; n < result.Length; n++)
-            {
-                float sample = (float)(-2 * Amplitude / Math.PI * Math.Atan(1 / Math.Tan(Math.PI * Frequency * n / WaveFormat.SampleRate)));
-                result[n] = sample;
-            }
-            return result;
+            return (float)(-2 * Amplitude / Math.PI * Math.Atan(1 / Math.Tan(Math.PI * Frequency * n / WaveFormat.SampleRate)));
         }
 
-        public float[] EmitNoise()
+        private float EmitNoiseSample(int n)
         {
-            var result = new float[Length * WaveFormat.SampleRate];
-            for (int n = 0; n < result.Length; n++)
-            {
-                float sample = (float)(random.NextDouble() * Amplitude);
-                result[n] = sample;
-            }
-            return result;
+            return (float)(random.NextDouble() * Amplitude);
         }
     }
 }
