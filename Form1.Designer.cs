@@ -1,4 +1,6 @@
-﻿namespace lab1
+﻿using System;
+
+namespace lab1
 {
     partial class Form1
     {
@@ -33,6 +35,7 @@
             this.lblFrequency = new System.Windows.Forms.Label();
             this.edtAmplitude = new System.Windows.Forms.NumericUpDown();
             this.lblAmplitude = new System.Windows.Forms.Label();
+            this.cbSignalType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.edtFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.edtAmplitude)).BeginInit();
             this.SuspendLayout();
@@ -97,11 +100,21 @@
             this.lblAmplitude.TabIndex = 4;
             this.lblAmplitude.Text = "Amplitude:";
             // 
+            // cbSignalType
+            // 
+            this.cbSignalType.FormattingEnabled = true;
+            this.cbSignalType.Location = new System.Drawing.Point(496, 29);
+            this.cbSignalType.Name = "cbSignalType";
+            this.cbSignalType.Size = new System.Drawing.Size(121, 24);
+            this.cbSignalType.TabIndex = 5;
+            this.cbSignalType.DataSource = Enum.GetValues(typeof(SignalType));
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.cbSignalType);
             this.Controls.Add(this.lblAmplitude);
             this.Controls.Add(this.edtAmplitude);
             this.Controls.Add(this.lblFrequency);
@@ -123,6 +136,7 @@
         private System.Windows.Forms.Label lblFrequency;
         private System.Windows.Forms.NumericUpDown edtAmplitude;
         private System.Windows.Forms.Label lblAmplitude;
+        private System.Windows.Forms.ComboBox cbSignalType;
     }
 }
 

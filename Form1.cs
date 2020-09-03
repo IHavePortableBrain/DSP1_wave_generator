@@ -25,10 +25,12 @@ namespace lab1
             InitializeComponent();
             Signal = new Signal()
             {
-                Length = 10,
-                Amplitude = (float)edtAmplitude.Value,
-                Frequency = (float)edtFrequency.Value,
+                SignalType = ((IEnumerable<SignalType>)cbSignalType.DataSource).First(),
+                Length = Constants.Signal.Length,
+                Amplitude = (double)edtAmplitude.Value,
+                Frequency = (double)edtFrequency.Value,
                 WaveFormat = waveFormat,
+                DutyCycle = Constants.Signal.DutyCycle,
             };
             BindControls();
         }
@@ -39,8 +41,8 @@ namespace lab1
             using (var fs = new FileStream(tempFile, FileMode.OpenOrCreate, FileAccess.Write))
             using (WaveFileWriter writer = new WaveFileWriter(fs, waveFormat))
             {
-                var sine = Signal.EmitSine();
-                writer.WriteSamples(sine, 0, sine.Length);
+                var signal = Signal.Emit();
+                writer.WriteSamples(signal, 0, signal.Length);
             }
         }
 
@@ -50,6 +52,8 @@ namespace lab1
                 (nameof(edtAmplitude.Value), Signal, nameof(Signal.Amplitude)));
             edtFrequency.DataBindings.Add(new Binding
                 (nameof(edtFrequency.Value), Signal, nameof(Signal.Frequency)));
+            cbSignalType.DataBindings.Add(new Binding
+                (nameof(cbSignalType.SelectedItem), Signal, nameof(Signal.SignalType)));
         }
     }
 }
