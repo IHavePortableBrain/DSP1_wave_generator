@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -39,7 +40,7 @@ namespace lab1
         private void btnRecord_Click(object sender, EventArgs e)
         {
             var samples = Signal.Emit();
-            WriteToFile(samples);
+            WriteToFile(samples, $"{Signal}.wav");
         }
 
         private void btnRecordPolysignal_Click(object sender, EventArgs e)
@@ -47,7 +48,8 @@ namespace lab1
             if (_polysignal.Count > 1)
             {
                 var samples = _polysignal.Emit();
-                WriteToFile(samples);
+                var fileName = string.Join("+", _polysignal.Select(p => p.ToString()));
+                WriteToFile(samples, $"{fileName}.wav");
             }
             else
             {
@@ -55,9 +57,9 @@ namespace lab1
             }
         }
 
-        private void WriteToFile(float[] samples)
+        private void WriteToFile(float[] samples, string fileName)
         {
-            string tempFile = Path.Combine(OutputDir, OutputFileName);
+            string tempFile = Path.Combine(OutputDir, fileName);
             using (var fs = new FileStream(tempFile, FileMode.OpenOrCreate, FileAccess.Write))
             using (WaveFileWriter writer = new WaveFileWriter(fs, waveFormat))
             {
@@ -77,7 +79,7 @@ namespace lab1
 
         private void btnAddToPolysignal_Click(object sender, EventArgs e)
         {
-            _polysignal.Add(Signal);
+            _polysignal.Add(Signal.Clone());
             lblPolysignalCountValue.Text = _polysignal.Count.ToString(); // todo refactor, use event or model binding or smth else
         }
 

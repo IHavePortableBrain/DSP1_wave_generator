@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace lab1
 {
+    [Serializable]
     public class Signal
     {
         private readonly Random random;
@@ -79,6 +80,18 @@ namespace lab1
         private float EmitNoiseSample(int n)
         {
             return (float)(random.NextDouble() * Amplitude);
+        }
+
+        public override string ToString()
+        {
+            return $"{SignalType};freq={Frequency};ampl={Amplitude}";
+        }
+
+        public Signal Clone()
+        {
+            var result = (Signal)MemberwiseClone();
+            result.WaveFormat = new WaveFormat(WaveFormat.SampleRate, WaveFormat.BitsPerSample, WaveFormat.Channels);
+            return result;
         }
     }
 }
