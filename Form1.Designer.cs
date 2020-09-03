@@ -36,6 +36,11 @@ namespace lab1
             this.edtAmplitude = new System.Windows.Forms.NumericUpDown();
             this.lblAmplitude = new System.Windows.Forms.Label();
             this.cbSignalType = new System.Windows.Forms.ComboBox();
+            this.btnAddToPolysignal = new System.Windows.Forms.Button();
+            this.lblPolysignalCount = new System.Windows.Forms.Label();
+            this.lblPolysignalCountValue = new System.Windows.Forms.Label();
+            this.btnClearPolysignal = new System.Windows.Forms.Button();
+            this.btnRecordPolysignal = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.edtFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.edtAmplitude)).BeginInit();
             this.SuspendLayout();
@@ -82,6 +87,11 @@ namespace lab1
             this.edtAmplitude.BackColor = System.Drawing.Color.BlanchedAlmond;
             this.edtAmplitude.DecimalPlaces = 2;
             this.edtAmplitude.Location = new System.Drawing.Point(623, 150);
+            this.edtAmplitude.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.edtAmplitude.Name = "edtAmplitude";
             this.edtAmplitude.Size = new System.Drawing.Size(120, 22);
             this.edtAmplitude.TabIndex = 3;
@@ -102,18 +112,71 @@ namespace lab1
             // 
             // cbSignalType
             // 
+            this.cbSignalType.DataSource = Enum.GetValues(typeof(SignalType));
             this.cbSignalType.FormattingEnabled = true;
             this.cbSignalType.Location = new System.Drawing.Point(496, 29);
             this.cbSignalType.Name = "cbSignalType";
             this.cbSignalType.Size = new System.Drawing.Size(121, 24);
             this.cbSignalType.TabIndex = 5;
-            this.cbSignalType.DataSource = Enum.GetValues(typeof(SignalType));
+            // 
+            // btnAddToPolysignal
+            // 
+            this.btnAddToPolysignal.Location = new System.Drawing.Point(496, 197);
+            this.btnAddToPolysignal.Name = "btnAddToPolysignal";
+            this.btnAddToPolysignal.Size = new System.Drawing.Size(121, 46);
+            this.btnAddToPolysignal.TabIndex = 6;
+            this.btnAddToPolysignal.Text = "Add to polysignal";
+            this.btnAddToPolysignal.UseVisualStyleBackColor = true;
+            this.btnAddToPolysignal.Click += new System.EventHandler(this.btnAddToPolysignal_Click);
+            // 
+            // lblPolysignalCount
+            // 
+            this.lblPolysignalCount.AutoSize = true;
+            this.lblPolysignalCount.Location = new System.Drawing.Point(493, 268);
+            this.lblPolysignalCount.Name = "lblPolysignalCount";
+            this.lblPolysignalCount.Size = new System.Drawing.Size(188, 17);
+            this.lblPolysignalCount.TabIndex = 7;
+            this.lblPolysignalCount.Text = "polysignal component count:";
+            // 
+            // lblPolysignalCountValue
+            // 
+            this.lblPolysignalCountValue.AutoSize = true;
+            this.lblPolysignalCountValue.Location = new System.Drawing.Point(700, 268);
+            this.lblPolysignalCountValue.Name = "lblPolysignalCountValue";
+            this.lblPolysignalCountValue.Size = new System.Drawing.Size(16, 17);
+            this.lblPolysignalCountValue.TabIndex = 8;
+            this.lblPolysignalCountValue.Text = "0";
+            // 
+            // btnClearPolysignal
+            // 
+            this.btnClearPolysignal.Location = new System.Drawing.Point(645, 197);
+            this.btnClearPolysignal.Name = "btnClearPolysignal";
+            this.btnClearPolysignal.Size = new System.Drawing.Size(102, 46);
+            this.btnClearPolysignal.TabIndex = 9;
+            this.btnClearPolysignal.Text = "Clear polysignal";
+            this.btnClearPolysignal.UseVisualStyleBackColor = true;
+            this.btnClearPolysignal.Click += new System.EventHandler(this.btnClearPolysignal_Click);
+            // 
+            // btnRecordPolysignal
+            // 
+            this.btnRecordPolysignal.Location = new System.Drawing.Point(496, 304);
+            this.btnRecordPolysignal.Name = "btnRecordPolysignal";
+            this.btnRecordPolysignal.Size = new System.Drawing.Size(247, 49);
+            this.btnRecordPolysignal.TabIndex = 10;
+            this.btnRecordPolysignal.Text = "Record polysignal";
+            this.btnRecordPolysignal.UseVisualStyleBackColor = true;
+            this.btnRecordPolysignal.Click += new System.EventHandler(this.btnRecordPolysignal_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnRecordPolysignal);
+            this.Controls.Add(this.btnClearPolysignal);
+            this.Controls.Add(this.lblPolysignalCountValue);
+            this.Controls.Add(this.lblPolysignalCount);
+            this.Controls.Add(this.btnAddToPolysignal);
             this.Controls.Add(this.cbSignalType);
             this.Controls.Add(this.lblAmplitude);
             this.Controls.Add(this.edtAmplitude);
@@ -137,6 +200,11 @@ namespace lab1
         private System.Windows.Forms.NumericUpDown edtAmplitude;
         private System.Windows.Forms.Label lblAmplitude;
         private System.Windows.Forms.ComboBox cbSignalType;
+        private System.Windows.Forms.Button btnAddToPolysignal;
+        private System.Windows.Forms.Label lblPolysignalCount;
+        private System.Windows.Forms.Label lblPolysignalCountValue;
+        private System.Windows.Forms.Button btnClearPolysignal;
+        private System.Windows.Forms.Button btnRecordPolysignal;
     }
 }
 

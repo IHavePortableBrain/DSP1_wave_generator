@@ -19,6 +19,7 @@ namespace lab1
         public int Length { get; set; } // sec
         public double DutyCycle { get; set; } // SignalType.Impulse related. 0..1
         public WaveFormat WaveFormat { get; set; }
+        public int SampleCount => Length * WaveFormat.SampleRate;
 
         public Signal(Random random)
         {
@@ -27,7 +28,7 @@ namespace lab1
 
         public float[] Emit()
         {
-            var result = new float[Length * WaveFormat.SampleRate];
+            var result = new float[SampleCount];
             for (int n = 0; n < result.Length; n++)
             {
                 float sample = EmitSample(n);
