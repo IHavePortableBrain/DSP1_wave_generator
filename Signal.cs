@@ -12,7 +12,8 @@ namespace lab1
     public class Signal
     {
         private readonly Random random;
-
+        public Signal AmplitudeModulating;
+        public double ModulationK { get; set; } = Constants.Signal.ModulationK;// modulation coefficient
         public SignalType SignalType { get; set; }
         public double Amplitude { get; set; }
         public double Frequency { get; set; }
@@ -40,21 +41,29 @@ namespace lab1
 
         public float EmitSample(int n)
         {
+            float result;
             switch (SignalType)
             {
                 case SignalType.Sine:
-                    return EmitSineSample(n);
+                    result = EmitSineSample(n);
+                    break;
                 case SignalType.Impulse:
-                    return EmitImpulseSample(n);
+                    result = EmitImpulseSample(n);
+                    break;
                 case SignalType.Triangle:
-                    return EmitTriangleSample(n);
+                    result = EmitTriangleSample(n);
+                    break;
                 case SignalType.Sawtooth:
-                    return EmitSawtoothSample(n);
+                    result = EmitSawtoothSample(n);
+                    break;
                 case SignalType.Noise:
-                    return EmitNoiseSample(n);
+                    result = EmitNoiseSample(n);
+                    break;
                 default:
-                    return EmitNoiseSample(n);
+                    result = EmitNoiseSample(n);
+                    break;
             }
+            return AmplitudeModulating == null ? result : result * (1 + AmplitudeModulating.EmitSample(n));
         }
 
         private float EmitSineSample(int n)
@@ -79,7 +88,7 @@ namespace lab1
 
         private float EmitNoiseSample(int n)
         {
-            return (float)(random.NextDouble() * Amplitude);
+            return (float)((random.NextDouble() > 0.5 ? 1 : -1) * random.NextDouble() * Amplitude);
         }
 
         public override string ToString()

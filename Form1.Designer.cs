@@ -41,8 +41,12 @@ namespace lab1
             this.lblPolysignalCountValue = new System.Windows.Forms.Label();
             this.btnClearPolysignal = new System.Windows.Forms.Button();
             this.btnRecordPolysignal = new System.Windows.Forms.Button();
+            this.btnSetAsAmplModulating = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.edtDutyCycle = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.edtFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.edtAmplitude)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.edtDutyCycle)).BeginInit();
             this.SuspendLayout();
             // 
             // btnRecord
@@ -60,7 +64,7 @@ namespace lab1
             this.edtFrequency.BackColor = System.Drawing.Color.Aqua;
             this.edtFrequency.Location = new System.Drawing.Point(623, 103);
             this.edtFrequency.Maximum = new decimal(new int[] {
-            100000,
+            16000,
             0,
             0,
             0});
@@ -167,11 +171,46 @@ namespace lab1
             this.btnRecordPolysignal.UseVisualStyleBackColor = true;
             this.btnRecordPolysignal.Click += new System.EventHandler(this.btnRecordPolysignal_Click);
             // 
+            // btnSetAsAmplModulating
+            // 
+            this.btnSetAsAmplModulating.Location = new System.Drawing.Point(285, 29);
+            this.btnSetAsAmplModulating.Name = "btnSetAsAmplModulating";
+            this.btnSetAsAmplModulating.Size = new System.Drawing.Size(159, 64);
+            this.btnSetAsAmplModulating.TabIndex = 11;
+            this.btnSetAsAmplModulating.Text = "Set as ampl modulationg";
+            this.btnSetAsAmplModulating.UseVisualStyleBackColor = true;
+            this.btnSetAsAmplModulating.Click += new System.EventHandler(this.btnSetAsAmplModulating_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(306, 103);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(75, 17);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "duty cycle:";
+            // 
+            // edtDutyCycle
+            // 
+            this.edtDutyCycle.DecimalPlaces = 3;
+            this.edtDutyCycle.Location = new System.Drawing.Point(387, 103);
+            this.edtDutyCycle.Name = "edtDutyCycle";
+            this.edtDutyCycle.Size = new System.Drawing.Size(120, 22);
+            this.edtDutyCycle.TabIndex = 13;
+            this.edtDutyCycle.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.edtDutyCycle);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnSetAsAmplModulating);
             this.Controls.Add(this.btnRecordPolysignal);
             this.Controls.Add(this.btnClearPolysignal);
             this.Controls.Add(this.lblPolysignalCountValue);
@@ -187,6 +226,7 @@ namespace lab1
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.edtFrequency)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.edtAmplitude)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.edtDutyCycle)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,6 +245,9 @@ namespace lab1
         private System.Windows.Forms.Label lblPolysignalCountValue;
         private System.Windows.Forms.Button btnClearPolysignal;
         private System.Windows.Forms.Button btnRecordPolysignal;
+        private System.Windows.Forms.Button btnSetAsAmplModulating;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown edtDutyCycle;
     }
 }
 

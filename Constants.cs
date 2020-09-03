@@ -14,6 +14,7 @@ namespace lab1
         {
             public const int Length = 10;
             public const double DutyCycle = 0.5;
+            public const double ModulationK = 1;
         }
     }
 }

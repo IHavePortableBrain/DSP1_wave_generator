@@ -16,6 +16,7 @@ namespace lab1
     public partial class Form1 : Form
     {
         public Signal Signal;
+        public Signal AmplitudeModulatingSignal;
         public List<Signal> _polysignal = new List<Signal>();
         public readonly WaveFormat waveFormat = new WaveFormat(8000, 24, 1);
         public readonly string OutputDir = Path.Combine(Environment.CurrentDirectory, Constants.OutputDirName);
@@ -32,7 +33,7 @@ namespace lab1
                 Amplitude = (double)edtAmplitude.Value,
                 Frequency = (double)edtFrequency.Value,
                 WaveFormat = waveFormat,
-                DutyCycle = Constants.Signal.DutyCycle,
+                DutyCycle = (double)edtDutyCycle.Value,
             };
             BindControls();
         }
@@ -75,6 +76,8 @@ namespace lab1
                 (nameof(edtFrequency.Value), Signal, nameof(Signal.Frequency)));
             cbSignalType.DataBindings.Add(new Binding
                 (nameof(cbSignalType.SelectedItem), Signal, nameof(Signal.SignalType)));
+            edtDutyCycle.DataBindings.Add(new Binding
+                (nameof(edtDutyCycle.Value), Signal, nameof(Signal.DutyCycle)));
         }
 
         private void btnAddToPolysignal_Click(object sender, EventArgs e)
@@ -87,6 +90,13 @@ namespace lab1
         {
             _polysignal.Clear();
             lblPolysignalCountValue.Text = _polysignal.Count.ToString(); // todo refactor, use event or model binding or smth else
+        }
+
+        private void btnSetAsAmplModulating_Click(object sender, EventArgs e)
+        {
+            Signal.AmplitudeModulating = null; // crutch
+            AmplitudeModulatingSignal = Signal.Clone();
+            Signal.AmplitudeModulating = AmplitudeModulatingSignal;
         }
     }
 }
