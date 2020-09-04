@@ -13,7 +13,8 @@ namespace lab1
     {
         private readonly Random random;
         public Signal AmplitudeModulating;
-        public double ModulationK { get; set; } = Constants.Signal.ModulationK;// modulation coefficient
+        public Signal FrequencyModulating;
+        public double ModulationK { get; set; } = Constants.Signal.ModulationK;// modulation coefficient, not used but can be
         public SignalType SignalType { get; set; }
         public double Amplitude { get; set; }
         public double Frequency { get; set; }
@@ -22,6 +23,7 @@ namespace lab1
         public double DutyCycle { get; set; } // SignalType.Impulse related. 0..1
         public WaveFormat WaveFormat { get; set; }
         public int SampleCount => Length * WaveFormat.SampleRate;
+        public double Fi { get; set; }
 
         public Signal(Random random)
         {
@@ -36,11 +38,21 @@ namespace lab1
                 float sample = EmitSample(n);
                 result[n] = sample;
             }
+            Fi = default;
+            if (FrequencyModulating != null)
+            {
+                FrequencyModulating.Fi = default;
+            }
+            if (AmplitudeModulating != null)
+            {
+                AmplitudeModulating.Fi = default;
+            }
             return result;
         }
 
         public float EmitSample(int n)
         {
+            // Frequency = (1 + FrequencyModulating?.EmitSample(n)) * Frequency ?? Frequency;
             float result;
             switch (SignalType)
             {
@@ -52,8 +64,8 @@ namespace lab1
                     break;
                 case SignalType.Triangle:
                     result = EmitTriangleSample(n);
-                    break;
-                case SignalType.Sawtooth:
+                    break;                      
+                case SignalType.Sawtooth:       
                     result = EmitSawtoothSample(n);
                     break;
                 case SignalType.Noise:
@@ -68,22 +80,26 @@ namespace lab1
 
         private float EmitSineSample(int n)
         {
-            return (float)(Amplitude * Math.Sin(2 * Math.PI * n * Frequency / WaveFormat.SampleRate));
+            Fi += 2 * Math.PI * 1 * (1 + (FrequencyModulating?.EmitSample(n) ?? 0)) * Frequency / WaveFormat.SampleRate;
+            return (float)(Amplitude * Math.Sin(Fi));
         }
 
         private float EmitImpulseSample(int n)
         {
-            return (float)(Amplitude * (((n / (double)WaveFormat.SampleRate) % Period) / Period > DutyCycle ? 0 : 1));
+            var T = Period / (1 + (FrequencyModulating?.EmitSample(n) ?? 0));
+            return (float)(Amplitude * (((n / (double)WaveFormat.SampleRate) % T) / T > DutyCycle ? 0 : 1));
         }
 
         private float EmitTriangleSample(int n)
         {
-            return (float)(2 * Amplitude / Math.PI * Math.Asin(Math.Sin(2 * Math.PI * Frequency * n / WaveFormat.SampleRate)));
+            Fi += 2 * Math.PI * (1 + (FrequencyModulating?.EmitSample(n) ?? 0)) * Frequency * 1 / WaveFormat.SampleRate;
+            return (float)(2 * Amplitude / Math.PI * Math.Asin(Math.Sin(Fi)));
         }
 
         private float EmitSawtoothSample(int n)
         {
-            return (float)(-2 * Amplitude / Math.PI * Math.Atan(1 / Math.Tan(Math.PI * Frequency * n / WaveFormat.SampleRate)));
+            Fi += Math.PI * (1 + (FrequencyModulating?.EmitSample(n) ?? 0)) * Frequency * 1 / WaveFormat.SampleRate;
+            return (float)(-2 * Amplitude / Math.PI * Math.Atan(1 / Math.Tan(Fi)));
         }
 
         private float EmitNoiseSample(int n)

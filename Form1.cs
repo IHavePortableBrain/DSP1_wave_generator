@@ -17,6 +17,7 @@ namespace lab1
     {
         public Signal Signal;
         public Signal AmplitudeModulatingSignal;
+        public Signal FrequncyModulatingSignal;
         public List<Signal> _polysignal = new List<Signal>();
         public readonly WaveFormat waveFormat = new WaveFormat(8000, 24, 1);
         public readonly string OutputDir = Path.Combine(Environment.CurrentDirectory, Constants.OutputDirName);
@@ -61,7 +62,7 @@ namespace lab1
         private void WriteToFile(float[] samples, string fileName)
         {
             string tempFile = Path.Combine(OutputDir, fileName);
-            using (var fs = new FileStream(tempFile, FileMode.OpenOrCreate, FileAccess.Write))
+            using (var fs = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
             using (WaveFileWriter writer = new WaveFileWriter(fs, waveFormat))
             {
                 writer.WriteSamples(samples, 0, samples.Length);
@@ -90,13 +91,32 @@ namespace lab1
         {
             _polysignal.Clear();
             lblPolysignalCountValue.Text = _polysignal.Count.ToString(); // todo refactor, use event or model binding or smth else
+            Signal.AmplitudeModulating = null;
+            Signal.FrequencyModulating = null;
         }
 
         private void btnSetAsAmplModulating_Click(object sender, EventArgs e)
         {
-            Signal.AmplitudeModulating = null; // crutch
+            Signal.AmplitudeModulating = null; // crutch?
+            Signal.FrequencyModulating = null; // crutch?
             AmplitudeModulatingSignal = Signal.Clone();
             Signal.AmplitudeModulating = AmplitudeModulatingSignal;
+            foreach (var signal in _polysignal)
+            {
+                signal.AmplitudeModulating = AmplitudeModulatingSignal;
+            }
+        }
+
+        private void btnSetFrequencyMoulatingSignal_Click(object sender, EventArgs e)
+        {
+            Signal.AmplitudeModulating = null; // crutch?
+            Signal.FrequencyModulating = null; // crutch?
+            FrequncyModulatingSignal = Signal.Clone();
+            Signal.FrequencyModulating = FrequncyModulatingSignal;
+            foreach (var signal in _polysignal)
+            {
+                signal.FrequencyModulating = FrequncyModulatingSignal;
+            }
         }
     }
 }

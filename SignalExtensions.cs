@@ -24,6 +24,15 @@ namespace lab1
                 {
                     samples[n] += signal.EmitSample(n);
                 }
+                signal.Fi = default;
+                if (signal.FrequencyModulating != null)
+                {
+                    signal.FrequencyModulating.Fi = default;
+                }
+                if (signal.AmplitudeModulating != null)
+                {
+                    signal.AmplitudeModulating.Fi = default;
+                }
             });
 
             return samples;

@@ -44,6 +44,7 @@ namespace lab1
             this.btnSetAsAmplModulating = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.edtDutyCycle = new System.Windows.Forms.NumericUpDown();
+            this.btnSetFrequencyMoulatingSignal = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.edtFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.edtAmplitude)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.edtDutyCycle)).BeginInit();
@@ -62,6 +63,7 @@ namespace lab1
             // edtFrequency
             // 
             this.edtFrequency.BackColor = System.Drawing.Color.Aqua;
+            this.edtFrequency.DecimalPlaces = 2;
             this.edtFrequency.Location = new System.Drawing.Point(623, 103);
             this.edtFrequency.Maximum = new decimal(new int[] {
             16000,
@@ -153,11 +155,11 @@ namespace lab1
             // 
             // btnClearPolysignal
             // 
-            this.btnClearPolysignal.Location = new System.Drawing.Point(645, 197);
+            this.btnClearPolysignal.Location = new System.Drawing.Point(112, 150);
             this.btnClearPolysignal.Name = "btnClearPolysignal";
-            this.btnClearPolysignal.Size = new System.Drawing.Size(102, 46);
+            this.btnClearPolysignal.Size = new System.Drawing.Size(348, 203);
             this.btnClearPolysignal.TabIndex = 9;
-            this.btnClearPolysignal.Text = "Clear polysignal";
+            this.btnClearPolysignal.Text = "Clear";
             this.btnClearPolysignal.UseVisualStyleBackColor = true;
             this.btnClearPolysignal.Click += new System.EventHandler(this.btnClearPolysignal_Click);
             // 
@@ -203,11 +205,22 @@ namespace lab1
             0,
             65536});
             // 
+            // btnSetFrequencyMoulatingSignal
+            // 
+            this.btnSetFrequencyMoulatingSignal.Location = new System.Drawing.Point(112, 30);
+            this.btnSetFrequencyMoulatingSignal.Name = "btnSetFrequencyMoulatingSignal";
+            this.btnSetFrequencyMoulatingSignal.Size = new System.Drawing.Size(128, 63);
+            this.btnSetFrequencyMoulatingSignal.TabIndex = 14;
+            this.btnSetFrequencyMoulatingSignal.Text = "Set as frequency modulating";
+            this.btnSetFrequencyMoulatingSignal.UseVisualStyleBackColor = true;
+            this.btnSetFrequencyMoulatingSignal.Click += new System.EventHandler(this.btnSetFrequencyMoulatingSignal_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnSetFrequencyMoulatingSignal);
             this.Controls.Add(this.edtDutyCycle);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSetAsAmplModulating);
@@ -248,6 +261,7 @@ namespace lab1
         private System.Windows.Forms.Button btnSetAsAmplModulating;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown edtDutyCycle;
+        private System.Windows.Forms.Button btnSetFrequencyMoulatingSignal;
     }
 }
 
