@@ -19,7 +19,7 @@ namespace lab1
         public Signal AmplitudeModulatingSignal;
         public Signal FrequncyModulatingSignal;
         public List<Signal> _polysignal = new List<Signal>();
-        public readonly WaveFormat waveFormat = new WaveFormat(8000, 24, 1);
+        public readonly WaveFormat waveFormat = new WaveFormat(44100, 24, 1);
         public readonly string OutputDir = Path.Combine(Environment.CurrentDirectory, Constants.OutputDirName);
         private string OutputFileName => "file.wav";// Guid.NewGuid().ToString() + ".wav";
 
@@ -62,9 +62,14 @@ namespace lab1
         private void WriteToFile(float[] samples, string fileName)
         {
             string tempFile = Path.Combine(OutputDir, fileName);
+            //WaveFileWriter.CreateWaveFile(tempFile, new NullWaveProvider(waveFormat));
             using (var fs = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
             using (WaveFileWriter writer = new WaveFileWriter(fs, waveFormat))
             {
+                //var bytes = new byte[samples.Length * 4];
+                //Buffer.BlockCopy(samples, 0, bytes, 0, bytes.Length);
+                //writer.Write(bytes, 0, bytes.Length);
+                //writer.WriteSample(samples[0]);
                 writer.WriteSamples(samples, 0, samples.Length);
             }
         }

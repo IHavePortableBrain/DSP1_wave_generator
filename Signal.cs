@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace lab1
 {
-    [Serializable]
     public class Signal
     {
         private readonly Random random;
