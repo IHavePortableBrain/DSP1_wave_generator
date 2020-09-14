@@ -85,8 +85,9 @@ namespace lab1
 
         private float EmitImpulseSample(int n)
         {
-            var T = Period / (1 + (FrequencyModulating?.EmitSample(n) ?? 0));
-            return (float)(Amplitude * (((n / (double)WaveFormat.SampleRate) % T) / T > DutyCycle ? 0 : 1));
+            Fi += 2 * Math.PI * (1 + (FrequencyModulating?.EmitSample(n) ?? 0)) * Frequency * 1 / WaveFormat.SampleRate;
+            var cycle = 2 * (float)Math.PI;
+            return (float)(Amplitude * ((Fi % cycle) / cycle > DutyCycle ? 0 : 1));
         }
 
         private float EmitTriangleSample(int n)
