@@ -22,7 +22,7 @@ namespace lab1
             {
                 for (int n = 0; n < samples.Length; n++)
                 {
-                    samples[n] += signal.EmitSample(n);
+                    samples[n] += signal.EmitSample();
                 }
                 signal.Fi = default;
                 if (signal.FrequencyModulating != null)

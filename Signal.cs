@@ -34,7 +34,7 @@ namespace lab1
             var result = new float[SampleCount];
             for (int n = 0; n < result.Length; n++)
             {
-                float sample = EmitSample(n);
+                float sample = EmitSample();
                 result[n] = sample;
             }
             Fi = default;
@@ -49,60 +49,60 @@ namespace lab1
             return result;
         }
 
-        public float EmitSample(int n)
+        public float EmitSample()
         {
             // Frequency = (1 + FrequencyModulating?.EmitSample(n)) * Frequency ?? Frequency;
             float result;
             switch (SignalType)
             {
                 case SignalType.Sine:
-                    result = EmitSineSample(n);
+                    result = EmitSineSample();
                     break;
                 case SignalType.Impulse:
-                    result = EmitImpulseSample(n);
+                    result = EmitImpulseSample();
                     break;
                 case SignalType.Triangle:
-                    result = EmitTriangleSample(n);
+                    result = EmitTriangleSample();
                     break;                      
                 case SignalType.Sawtooth:       
-                    result = EmitSawtoothSample(n);
+                    result = EmitSawtoothSample();
                     break;
                 case SignalType.Noise:
-                    result = EmitNoiseSample(n);
+                    result = EmitNoiseSample();
                     break;
                 default:
-                    result = EmitNoiseSample(n);
+                    result = EmitNoiseSample();
                     break;
             }
-            return AmplitudeModulating == null ? result : result * (1 + AmplitudeModulating.EmitSample(n));
+            return AmplitudeModulating == null ? result : result * (1 + AmplitudeModulating.EmitSample());
         }
 
-        private float EmitSineSample(int n)
+        private float EmitSineSample()
         {
-            Fi += 2 * Math.PI * 1 * (1 + (FrequencyModulating?.EmitSample(n) ?? 0)) * Frequency / WaveFormat.SampleRate;
+            Fi += 2 * Math.PI * 1 * (1 + (FrequencyModulating?.EmitSample() ?? 0)) * Frequency / WaveFormat.SampleRate;
             return (float)(Amplitude * Math.Sin(Fi));
         }
 
-        private float EmitImpulseSample(int n)
+        private float EmitImpulseSample()
         {
-            Fi += 2 * Math.PI * (1 + (FrequencyModulating?.EmitSample(n) ?? 0)) * Frequency * 1 / WaveFormat.SampleRate;
+            Fi += 2 * Math.PI * (1 + (FrequencyModulating?.EmitSample() ?? 0)) * Frequency * 1 / WaveFormat.SampleRate;
             var cycle = 2 * (float)Math.PI;
             return (float)(Amplitude * ((Fi % cycle) / cycle > DutyCycle ? 0 : 1));
         }
 
-        private float EmitTriangleSample(int n)
+        private float EmitTriangleSample()
         {
-            Fi += 2 * Math.PI * (1 + (FrequencyModulating?.EmitSample(n) ?? 0)) * Frequency * 1 / WaveFormat.SampleRate;
+            Fi += 2 * Math.PI * (1 + (FrequencyModulating?.EmitSample() ?? 0)) * Frequency * 1 / WaveFormat.SampleRate;
             return (float)(2 * Amplitude / Math.PI * Math.Asin(Math.Sin(Fi)));
         }
 
-        private float EmitSawtoothSample(int n)
+        private float EmitSawtoothSample()
         {
-            Fi += Math.PI * (1 + (FrequencyModulating?.EmitSample(n) ?? 0)) * Frequency * 1 / WaveFormat.SampleRate;
+            Fi += Math.PI * (1 + (FrequencyModulating?.EmitSample() ?? 0)) * Frequency * 1 / WaveFormat.SampleRate;
             return (float)(-2 * Amplitude / Math.PI * Math.Atan(1 / Math.Tan(Fi)));
         }
 
-        private float EmitNoiseSample(int n)
+        private float EmitNoiseSample()
         {
             return (float)((random.NextDouble() > 0.5 ? 1 : -1) * random.NextDouble() * Amplitude);
         }
